@@ -1,0 +1,185 @@
+
+-- mmspecialized and GDP 
+select gdp.location, ratioFemale, gdp
+from gdp JOIN mmspecialized on gdp.location = mmspecialized.location
+order by  gdp desc;
+
+--mmretailcustomerservice and GDP 
+
+select gdp.location, ratioFemale, gdp
+from gdp JOIN mmretailcustomerservice on gdp.location = mmretailcustomerservice.location
+order by  gdp desc;
+
+-- mmTradesProduction
+
+select gdp.location, ratioFemale, gdp
+from gdp JOIN mmTradesProduction on gdp.location = mmTradesProduction.location
+order by  gdp desc;
+
+
+-- mmSenior 
+select gdp.location, ratioFemale, gdp
+from gdp JOIN mmSenior on gdp.location = mmSenior.location
+order by  gdp desc;
+
+
+
+
+-- figure out how women in middle management positions of power are affected by gdp 
+create  view as template
+select provinces.code, mmspecialized.ratioFemale as mmspecialized,
+mmretailcustomerservice.ratioFemale as mmretailcustomerservice,
+mmTradesProduction.ratioFemale as mmTradesProduction,
+((mmspecialized.ratioFemale + mmretailcustomerservice.ratioFemale + mmTradesProduction.ratioFemale)/300*
+100) as totalRatio
+from mmretailcustomerservice
+join provinces on provinces.code = mmretailcustomerservice.location
+join mmspecialized on provinces.code = mmspecialized.location
+join mmTradesProduction on provinces.code = mmTradesProduction.location
+order by GDP desc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- figure out how women in middle management positions of power are affected by gdp 
+create 
+select gdp.location, gdp, mmspecialized.ratioFemale as mmspecialized,
+mmretailcustomerservice.ratioFemale as mmretailcustomerservice,
+mmTradesProduction.ratioFemale as mmTradesProduction,
+((mmspecialized.ratioFemale + mmretailcustomerservice.ratioFemale + mmTradesProduction.ratioFemale)/300*
+100) as totalRatio
+from mmretailcustomerservice
+join gdp on gdp.location = mmretailcustomerservice.location
+join mmspecialized on gdp.location = mmspecialized.location
+join mmTradesProduction on gdp.location = mmTradesProduction.location
+order by GDP desc;
+
+
+
+-- mmSenior 
+select gdp.location, ratioFemale, gdp
+from gdp JOIN mmSenior on gdp.location = mmSenior.location
+order by  gdp desc;
+
+
+-- figure out how women in middle management positions of power are affected by maritalstatus 
+
+select relationshipstatus.location, rationotincouple, mmspecialized.ratioFemale as mmspecialized,
+mmretailcustomerservice.ratioFemale as mmretailcustomerservice,
+mmTradesProduction.ratioFemale as mmTradesProduction,
+((mmspecialized.ratioFemale + mmretailcustomerservice.ratioFemale + mmTradesProduction.ratioFemale)/300*
+100) as totalRatio
+from mmretailcustomerservice
+join relationshipstatus.location, on relationshipstatus.location.location = mmretailcustomerservice.location
+join mmspecialized on relationshipstatus.location, .location = mmspecialized.location
+join mmTradesProduction on relationshipstatus.location, .location = mmTradesProduction.location
+order by relationshipstatus.location, desc;
+
+-- mmSenior 
+select relationshipstatus.location, ratioFemale, relationshipstatus
+from relationshipstatus JOIN mmSenior on gdp.location = mmSenior.location
+order by  gdp desc;
+
+############################################################################################
+
+create  view template as
+select provinces.code, mmspecialized.ratioFemale as mmspecialized,
+mmretailcustomerservice.ratioFemale as mmretailcustomerservice,
+mmTradesProduction.ratioFemale as mmTradesProduction,
+((mmspecialized.ratioFemale + mmretailcustomerservice.ratioFemale + mmTradesProduction.ratioFemale)/300*
+100) as totalRatio
+from mmretailcustomerservice
+join provinces on provinces.code = mmretailcustomerservice.location
+join mmspecialized on provinces.code = mmspecialized.location
+join mmTradesProduction on provinces.code = mmTradesProduction.location;
+
+---------------------------------------------------------------------------------------------
+Marital Status: 
+1. 
+-- Middle management position and number of couples
+select code, ratiocouple, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+ totalratio from template join relationshipstatus on 
+template.code = relationshipstatus.location order by ratiocouple desc;
+
+2.
+select code,  rationotincouple, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+totalratio from template join relationshipstatus on 
+template.code = relationshipstatus.location order by rationotincouple desc;
+
+3.
+-- Senior Management in couples 
+select relationshipstatus.location, ratiocouple, mmsenior.ratiofemale as mmsenior
+from relationshipstatus JOIN mmSenior on relationshipstatus.location = mmSenior.location
+order by  ratiocouple desc;
+
+4.
+-- senior Mangement notincouples
+select relationshipstatus.location, rationotincouple, mmsenior.ratiofemale as mmsenior
+from relationshipstatus JOIN mmSenior on relationshipstatus.location = mmSenior.location
+order by  rationotincouple desc;
+
+
+---------------------------------------------------------------------------------------------
+GDP
+
+-- Middle management position and GDP
+select code, gdp, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+totalratio from template join gdp on 
+template.code = relationshipstatus.location order by gdp desc;
+
+
+-- mmSenior 
+select gdp.location, gdp, ratioFemale
+from gdp JOIN mmSenior on gdp.location = mmSenior.location
+order by  gdp desc;
+
+--------------------------------------------------------------------------------------------
+
+-- Middle management position and postesecondary institution enrollment 
+
+select code, enrollmentfemale, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+totalratio from template join postsecondaryinstitutions on 
+template.code = postsecondaryinstitutions.location order by enrollmentfemale desc;
+
+-- mm senior
+select postsecondaryinstitutions.location, enrollmentfemale, ratioFemale as mmsenior
+from postsecondaryinstitutions JOIN mmSenior on postsecondaryinstitutions.location = mmSenior.location
+order by enrollmentfemale desc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,340 @@
+csc343h-malho199=> \i phase2.sql
+psql:phase2.sql:1: NOTICE:  drop cascades to 8 other objects
+DETAIL:  drop cascades to table projectschema.provinces
+drop cascades to table projectschema.mmspecialized
+drop cascades to table projectschema.mmretailcustomerservice
+drop cascades to table projectschema.mmtradesproduction
+drop cascades to table projectschema.mmsenior
+drop cascades to table projectschema.gdp
+drop cascades to table projectschema.relationshipstatus
+drop cascades to table projectschema.postsecondaryinstitutions
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+csc343h-malho199=> \COPY provinces FROM 'locations.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmSpecialized FROM 'mmSpecialized.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmretailcustomerservice FROM 'mmRetailServices.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmtradesproduction FROM 'mmTradesProduction.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmsenior FROM 'mmSenior.csv' WITH (FORMAT csv);
+COPY 6
+csc343h-malho199=> \COPY gdp FROM 'GDP.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY relationshipstatus FROM 'maritalStatus.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY postsecondaryinstitutions FROM 'postsecondaryEnrollment.csv' WITH (FORMAT csv);
+COPY 10
+=========================================================================================================
+csc343h-malho199=> \d postsecondaryInstitutions;           
+	Table "projectschema.postsecondaryinstitutions"
+      Column      |       Type       | Collation | Nullable | Default
+------------------+------------------+-----------+----------+---------
+ location         | text             |           | not null |
+ enrollmentfemale | double precision |           |          |
+ enrollmentmale   | double precision |           |          |
+Indexes:
+    "postsecondaryinstitutions_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "postsecondaryinstitutions_check" CHECK ((enrollmentfemale + enrollmentmale) >= 98::double precision AND (enrollmentfemale + enrollmentmale) <= 102::double precision)
+Foreign-key constraints:
+    "postsecondaryinstitutions_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+===========================================================================================================
+csc343h-malho199=> \d relationshipStatus;
+               Table "projectschema.relationshipstatus"
+      Column      |       Type       | Collation | Nullable | Default
+------------------+------------------+-----------+----------+---------
+ location         | text             |           | not null |
+ ratiocouple      | double precision |           | not null |
+ rationotincouple | double precision |           | not null |
+Indexes:
+    "relationshipstatus_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "relationshipstatus_check" CHECK ((ratiocouple + rationotincouple) >= 98::double precision AND (ratiocouple + rationotincouple) <= 102::double precision)
+Foreign-key constraints:
+    "relationshipstatus_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+=============================================================================================================
+csc343h-malho199=> \d gdp;
+                  Table "projectschema.gdp"
+  Column  |       Type       | Collation | Nullable | Default
+----------+------------------+-----------+----------+---------
+ location | text             |           | not null |
+ gdp      | double precision |           | not null |
+Indexes:
+    "gdp_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "gdp_gdp_check" CHECK (gdp >= 0::double precision)
+Foreign-key constraints:
+    "gdp_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+===============================================================================================================
+csc343h-malho199=> \d mmsenior;
+                 Table "projectschema.mmsenior"
+   Column    |       Type       | Collation | Nullable | Default
+-------------+------------------+-----------+----------+---------
+ location    | text             |           | not null |
+ ratiomale   | double precision |           | not null |
+ ratiofemale | double precision |           | not null |
+Indexes:
+    "mmsenior_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "mmsenior_check" CHECK ((ratiomale + ratiofemale) >= 98::double precision AND (ratiomale + ratiofemale) <= 102::double precision)
+Foreign-key constraints:
+    "mmsenior_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+================================================================================================================
+csc343h-malho199=> \d mmTradesProduction;
+            Table "projectschema.mmtradesproduction"
+   Column    |       Type       | Collation | Nullable | Default
+-------------+------------------+-----------+----------+---------
+ location    | text             |           | not null |
+ ratiomale   | double precision |           | not null |
+ ratiofemale | double precision |           | not null |
+Indexes:
+    "mmtradesproduction_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "mmtradesproduction_check" CHECK ((ratiomale + ratiofemale) >= 98::double precision AND (ratiomale + ratiofemale) <= 102::double precision)
+Foreign-key constraints:
+    "mmtradesproduction_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+==================================================================================================================
+csc343h-malho199-> \d mmretailcustomerservice;
+          Table "projectschema.mmretailcustomerservice"
+   Column    |       Type       | Collation | Nullable | Default
+-------------+------------------+-----------+----------+---------
+ location    | text             |           | not null |
+ ratiomale   | double precision |           | not null |
+ ratiofemale | double precision |           | not null |
+Indexes:
+    "mmretailcustomerservice_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "mmretailcustomerservice_check" CHECK ((ratiomale + ratiofemale) >= 98::double precision AND (ratiomale + ratiofemale) <= 102::double precision)
+Foreign-key constraints:
+    "mmretailcustomerservice_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+==================================================================================================================
+csc343h-malho199-> \d mmSpecialized;
+               Table "projectschema.mmspecialized"
+   Column    |       Type       | Collation | Nullable | Default
+-------------+------------------+-----------+----------+---------
+ location    | text             |           | not null |
+ ratiomale   | double precision |           | not null |
+ ratiofemale | double precision |           | not null |
+Indexes:
+    "mmspecialized_pkey" PRIMARY KEY, btree (location)
+Check constraints:
+    "mmspecialized_check" CHECK ((ratiomale + ratiofemale) >= 98::double precision AND (ratiomale + ratiofemale) <= 102::double precision)
+Foreign-key constraints:
+    "mmspecialized_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+================================================================================================================
+csc343h-malho199-> \d provinces;
+         Table "projectschema.provinces"
+  Column  | Type | Collation | Nullable | Default
+----------+------+-----------+----------+---------
+ location | text |           |          |
+ code     | text |           | not null |
+Indexes:
+    "provinces_pkey" PRIMARY KEY, btree (code)
+Referenced by:
+    TABLE "gdp" CONSTRAINT "gdp_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "mmretailcustomerservice" CONSTRAINT "mmretailcustomerservice_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "mmsenior" CONSTRAINT "mmsenior_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "mmspecialized" CONSTRAINT "mmspecialized_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "mmtradesproduction" CONSTRAINT "mmtradesproduction_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "postsecondaryinstitutions" CONSTRAINT "postsecondaryinstitutions_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+    TABLE "relationshipstatus" CONSTRAINT "relationshipstatus_location_fkey" FOREIGN KEY (location) REFERENCES provinces(code)
+
+============================================================================================================
+
+csc343h-malho199=> select * from provinces;
+         location          | code
+---------------------------+------
+ British Columbia          | BC
+ Alberta                   | AB
+ Saskatchewan              | SK
+ Manitoba                  | MB
+ Ontario                   | ON
+ Quebec                    | QC
+ New Brunswick             | NB
+ Nova Scotia               | NS
+ Newfoundland and Labrador | NL
+ Prince Edward Island      | PE
+(10 rows)
+
+============================================================================================================
+
+csc343h-malho199=> select * from mmSpecialized;
+ location | ratiomale | ratiofemale
+----------+-----------+-------------
+ NL       |      55.8 |        44.2
+ PE       |      46.7 |        53.3
+ NS       |      46.1 |        53.9
+ NB       |        44 |        54.7
+ QC       |      53.3 |        46.7
+ ON       |        54 |          46
+ MB       |      51.1 |        48.9
+ SK       |      46.5 |        53.5
+ AB       |      55.9 |        43.9
+ BC       |      52.6 |        47.4
+(10 rows)
+
+===========================================================================================================
+
+csc343h-malho199=> select * from mmretailcustomerservice;
+ location | ratiomale | ratiofemale
+----------+-----------+-------------
+ NL       |      40.4 |        59.6
+ PE       |      47.4 |        52.6
+ NS       |      45.2 |        55.6
+ NB       |      41.1 |        57.9
+ QC       |      41.6 |        58.5
+ ON       |      38.7 |        61.3
+ MB       |      36.5 |        63.5
+ SK       |        43 |          57
+ AB       |      42.3 |        57.7
+ BC       |        40 |          60
+(10 rows)
+
+===========================================================================================================
+
+csc343h-malho199=> select * from mmTradesProduction;
+ location | ratiomale | ratiofemale
+----------+-----------+-------------
+ BC       |      81.8 |        18.2
+ AB       |      83.7 |        16.3
+ SK       |      80.4 |        19.6
+ MB       |      84.1 |        15.9
+ ON       |      84.2 |        15.8
+ QC       |      83.4 |        16.6
+ NB       |      83.3 |        18.1
+ NS       |      84.5 |        15.5
+ NL       |      76.7 |        23.3
+ PE       |      87.5 |        12.5
+(10 rows)
+
+============================================================================================================
+
+csc343h-malho199=> select * from mmsenior;
+ location | ratiomale | ratiofemale
+----------+-----------+-------------
+ NS       |      57.1 |        42.9
+ QC       |      57.3 |        42.7
+ ON       |      77.6 |        22.4
+ MB       |      53.3 |        46.7
+ AB       |      38.6 |        61.4
+ BC       |      67.8 |        32.2
+(6 rows)
+
+===========================================================================================================
+
+csc343h-malho199=> select * from gdp;
+ location |   gdp
+----------+----------
+ NL       |    31282
+ PE       |   5393.8
+ NS       |  35489.1
+ NB       |    29546
+ QC       | 347197.7
+ ON       | 692620.8
+ MB       |  59966.8
+ SK       |  79317.5
+ AB       | 314599.4
+ BC       | 230763.5
+(10 rows)
+
+============================================================================================================
+
+csc343h-malho199=> select * from relationshipStatus;
+ location | ratiocouple | rationotincouple
+----------+-------------+------------------
+ NL       |        62.5 |             37.5
+ PE       |        60.1 |               40
+ NS       |          58 |             42.2
+ NB       |        60.2 |               40
+ QC       |          57 |             43.4
+ ON       |          57 |             43.2
+ MB       |          55 |               43
+ SK       |          59 |               41
+ AB       |        59.5 |               41
+ BC       |          58 |               42
+(10 rows)
+
+============================================================================================================
+
+csc343h-malho199=> select * from postsecondaryInstitutions;
+ location | enrollmentfemale | enrollmentmale
+----------+------------------+----------------
+ NL       |             54.7 |           45.3
+ PE       |             55.1 |           44.9
+ NS       |               56 |           43.5
+ NB       |             54.7 |           44.3
+ QC       |               58 |             42
+ ON       |               55 |           45.3
+ MB       |               57 |             42
+ SK       |             56.2 |           43.2
+ AB       |               59 |           41.4
+ BC       |               56 |           44.3
+(10 rows)
+
+=============================================================================================================
+
+csc343h-malho199=> select count(*) from mmSpecialized;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from mmRetailCustomerService;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from mmTradesProduction;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from mmSenior;
+ count
+-------
+     6
+(1 row)
+
+csc343h-malho199=> select count(*) from GDP;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from relationshipStatus;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from postsecondaryInstitutions;
+ count
+-------
+    10
+(1 row)
+
+csc343h-malho199=> select count(*) from provinces;
+ count
+-------
+    10
+(1 row)

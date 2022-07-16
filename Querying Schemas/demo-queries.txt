@@ -1,0 +1,279 @@
+csc343h-malho199=> \i phase2.sql
+psql:phase2.sql:1: NOTICE:  drop cascades to 8 other objects
+DETAIL:  drop cascades to table projectschema.provinces
+drop cascades to table projectschema.mmspecialized
+drop cascades to table projectschema.mmretailcustomerservice
+drop cascades to table projectschema.mmtradesproduction
+drop cascades to table projectschema.mmsenior
+drop cascades to table projectschema.gdp
+drop cascades to table projectschema.relationshipstatus
+drop cascades to table projectschema.postsecondaryinstitutions
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+csc343h-malho199=> \COPY provinces FROM 'locations.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmSpecialized FROM 'mmSpecialized.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmretailcustomerservice FROM 'mmRetailServices.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmtradesproduction FROM 'mmTradesProduction.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY mmsenior FROM 'mmSenior.csv' WITH (FORMAT csv);
+COPY 6
+csc343h-malho199=> \COPY gdp FROM 'GDP.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY relationshipstatus FROM 'maritalStatus.csv' WITH (FORMAT csv);
+COPY 10
+csc343h-malho199=> \COPY postsecondaryinstitutions FROM 'postsecondaryEnrollment.csv' WITH (FORMAT csv);
+COPY 10
+==========
+
+create  view template as
+select provinces.code, mmspecialized.ratioFemale as mmspecialized,
+mmretailcustomerservice.ratioFemale as mmretailcustomerservice,
+mmTradesProduction.ratioFemale as mmTradesProduction,
+((mmspecialized.ratioFemale + mmretailcustomerservice.ratioFemale + mmTradesProduction.ratioFemale)/300*
+100) as totalRatio
+from mmretailcustomerservice
+join provinces on provinces.code = mmretailcustomerservice.location
+join mmspecialized on provinces.code = mmspecialized.location
+join mmTradesProduction on provinces.code = mmTradesProduction.location;
+
+-- Q1: Ratio of people in couple and total ratio of women in middle management positions
+
+csc343h-malho199=> select code, ratiocouple, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+csc343h-malho199->  totalratio from template join relationshipstatus on
+csc343h-malho199-> template.code = relationshipstatus.location order by ratiocouple desc;
+
+ code | ratiocouple | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio
+------+-------------+---------------+-------------------------+--------------------+------------------
+ NL   |        62.5 |          44.2 |                    59.6 |               23.3 | 42.3666666666667
+ NB   |        60.2 |          54.7 |                    57.9 |               18.1 | 43.5666666666667
+ PE   |        60.1 |          53.3 |                    52.6 |               12.5 | 39.4666666666667
+ AB   |        59.5 |          43.9 |                    57.7 |               16.3 |             39.3
+ SK   |          59 |          53.5 |                      57 |               19.6 | 43.3666666666667
+ BC   |          58 |          47.4 |                      60 |               18.2 | 41.8666666666667
+ NS   |          58 |          53.9 |                    55.6 |               15.5 | 41.6666666666667
+ ON   |          57 |            46 |                    61.3 |               15.8 | 41.0333333333333
+ QC   |          57 |          46.7 |                    58.5 |               16.6 |             40.6
+ MB   |          55 |          48.9 |                    63.5 |               15.9 | 42.7666666666667
+(10 rows)
+
+#####################################################################################################
+
+-- Q2: Ratio of people not in couple and total ratio women in middle management positions 
+
+csc343h-malho199=> select code,  rationotincouple, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+csc343h-malho199-> totalratio from template join relationshipstatus on
+csc343h-malho199-> template.code = relationshipstatus.location order by rationotincouple desc;
+
+ code | rationotincouple | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio
+------+------------------+---------------+-------------------------+--------------------+------------------
+ QC   |             43.4 |          46.7 |                    58.5 |               16.6 |             40.6
+ ON   |             43.2 |            46 |                    61.3 |               15.8 | 41.0333333333333
+ MB   |               43 |          48.9 |                    63.5 |               15.9 | 42.7666666666667
+ NS   |             42.2 |          53.9 |                    55.6 |               15.5 | 41.6666666666667
+ BC   |               42 |          47.4 |                      60 |               18.2 | 41.8666666666667
+ SK   |               41 |          53.5 |                      57 |               19.6 | 43.3666666666667
+ AB   |               41 |          43.9 |                    57.7 |               16.3 |             39.3
+ NB   |               40 |          54.7 |                    57.9 |               18.1 | 43.5666666666667
+ PE   |               40 |          53.3 |                    52.6 |               12.5 | 39.4666666666667
+ NL   |             37.5 |          44.2 |                    59.6 |               23.3 | 42.3666666666667
+(10 rows)
+
+########################################################################################################
+
+--Q3: Ratio of people in couple and ratio of women in senior management positions 
+
+
+csc343h-malho199=> select relationshipstatus.location, ratiocouple, mmsenior.ratiofemale as mmsenior
+csc343h-malho199-> from relationshipstatus JOIN mmSenior on relationshipstatus.location = mmSenior.location
+csc343h-malho199-> order by  ratiocouple desc;
+
+ location | ratiocouple | mmsenior
+----------+-------------+----------
+ AB       |        59.5 |     61.4
+ NS       |          58 |     42.9
+ BC       |          58 |     32.2
+ QC       |          57 |     42.7
+ ON       |          57 |     22.4
+ MB       |          55 |     46.7
+(6 rows)
+
+########################################################################################################
+
+--Q4: Ratio of people not in couple and ratio of women in senior management positions 
+
+csc343h-malho199=> select relationshipstatus.location, rationotincouple, mmsenior.ratiofemale as mmsenior
+csc343h-malho199-> from relationshipstatus JOIN mmSenior on relationshipstatus.location = mmSenior.location
+csc343h-malho199-> order by  rationotincouple desc;
+
+ location | rationotincouple | mmsenior
+----------+------------------+----------
+ QC       |             43.4 |     42.7
+ ON       |             43.2 |     22.4
+ MB       |               43 |     46.7
+ NS       |             42.2 |     42.9
+ BC       |               42 |     32.2
+ AB       |               41 |     61.4
+(6 rows)
+
+##############################################################################################################
+
+--Q5: Avg of women in in middle management position associated to trades and production across all provinces
+
+ select avg(ratiofemale) as avgmmTradesProduction from mmtradesproduction;
+
+ avgmmtradesproduction
+-----------------------
+                 17.18
+(1 row)
+
+
+#################################################################################################################
+
+-- Q6: total ratio women in middle managment positions by province  
+
+csc343h-malho199=> select code, totalratio from template order by totalratio ;
+ code |    totalratio
+------+------------------
+ AB   |             39.3
+ PE   | 39.4666666666667
+ QC   |             40.6
+ ON   | 41.0333333333333
+ NS   | 41.6666666666667
+ BC   | 41.8666666666667
+ NL   | 42.3666666666667
+ MB   | 42.7666666666667
+ SK   | 43.3666666666667
+ NB   | 43.5666666666667
+
+#######################################################################################################
+Q7 -- association between gdp and ratio of couples, and teh enrollment of women in post secondary institutions
+
+csc343h-malho199=> select provinces.code, gdp, ratiocouple, enrollmentfemale
+from provinces join gdp on provinces.code = gdp.location join relationshipstatus on provinces.code = rel
+ationshipstatus.location join postsecondaryinstitutions on provinces.code = postsecondaryinstitutions.lo
+cation order by gdp desc;
+ code |   gdp    | ratiocouple | enrollmentfemale
+------+----------+-------------+------------------
+ ON   | 692620.8 |          57 |               55
+ QC   | 347197.7 |          57 |               58
+ AB   | 314599.4 |        59.5 |               59
+ BC   | 230763.5 |          58 |               56
+ SK   |  79317.5 |          59 |             56.2
+ MB   |  59966.8 |          55 |               57
+ NS   |  35489.1 |          58 |               56
+ NL   |    31282 |        62.5 |             54.7
+ NB   |    29546 |        60.2 |             54.7
+ PE   |   5393.8 |        60.1 |             55.1
+(10 rows)
+
+-- Q8 top 4 values from the previous table
+
+csc343h-malho199=> select provinces.code, gdp, ratiocouple, enrollmentfemale
+from provinces join gdp on provinces.code = gdp.location join relationshipstatus on provinces.code = relationshipstatus.location join postsecondaryinstitutions on provinces.code = postsecondaryinstitutions.location order by gdp desc limit 4;
+ code |   gdp    | ratiocouple | enrollmentfemale
+------+----------+-------------+------------------
+ ON   | 692620.8 |          57 |               55
+ QC   | 347197.7 |          57 |               58
+ AB   | 314599.4 |        59.5 |               59
+ BC   | 230763.5 |          58 |               56
+
+-- Q9 average of enrollment female and avergage of enrollemnt male in post secondary institutions
+for the top 4 provinces with the high gdps
+
+csc343h-malho199=> select avg(enrollmentfemale) enFemale, avg(enrollmentmale) as enMale
+from postsecondaryinstitutions where location in (select location from gdp order by gdp desc limit 4)
+;
+ enfemale | enmale
+----------+--------
+       57 |  43.25
+(1 row)
+
+
+-- Q10 women in senior managment position in provinces with high GDP and high post secondary enrollment 
+rate for females 
+
+csc343h-malho199=> select * from mmsenior where location in (select location from gdp order by gdp desc limit 4);
+ location | ratiomale | ratiofemale
+----------+-----------+-------------
+ QC       |      57.3 |        42.7
+ ON       |      77.6 |        22.4
+ AB       |      38.6 |        61.4
+ BC       |      67.8 |        32.2
+(4 rows)
+
+-- Q11 Women in middle management position and the gdps of the province 
+
+csc343h-malho199=> select code, gdp, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+totalratio from template join gdp on
+template.code = gdp.location order by gdp desc;
+ code |   gdp    | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio
+------+----------+---------------+-------------------------+--------------------+------------------
+ ON   | 692620.8 |            46 |                    61.3 |               15.8 | 41.0333333333333
+ QC   | 347197.7 |          46.7 |                    58.5 |               16.6 |             40.6
+ AB   | 314599.4 |          43.9 |                    57.7 |               16.3 |             39.3
+ BC   | 230763.5 |          47.4 |                      60 |               18.2 | 41.8666666666667
+ SK   |  79317.5 |          53.5 |                      57 |               19.6 | 43.3666666666667
+ MB   |  59966.8 |          48.9 |                    63.5 |               15.9 | 42.7666666666667
+ NS   |  35489.1 |          53.9 |                    55.6 |               15.5 | 41.6666666666667
+ NL   |    31282 |          44.2 |                    59.6 |               23.3 | 42.3666666666667
+ NB   |    29546 |          54.7 |                    57.9 |               18.1 | 43.5666666666667
+ PE   |   5393.8 |          53.3 |                    52.6 |               12.5 | 39.4666666666667
+
+
+-- Q12 women in middle management positions in provinces with high gdps 
+
+csc343h-malho199=> select * from template join gdp on template.code = gdp.location where code in (select location from gdp order by gdp desc limit 4) order by gdp desc;
+ code | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio    | location |   gdp
+------+---------------+-------------------------+--------------------+------------------+----------+----------
+ ON   |            46 |                    61.3 |               15.8 | 41.0333333333333 | ON       | 692620.8
+ QC   |          46.7 |                    58.5 |               16.6 |             40.6 | QC       | 347197.7
+ AB   |          43.9 |                    57.7 |               16.3 |             39.3 | AB       | 314599.4
+ BC   |          47.4 |                      60 |               18.2 | 41.8666666666667 | BC       | 230763.5
+
+
+-- Q13 Women in middle management positions in provinces with lower gdps 
+csc343h-malho199=> select code, gdp, mmspecialized, mmretailcustomerservice, mmtradesproduction,
+totalratio from template join gdp on
+template.code = gdp.location order by gdp limit 6;
+
+ code |   gdp   | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio
+------+---------+---------------+-------------------------+--------------------+------------------
+ PE   |  5393.8 |          53.3 |                    52.6 |               12.5 | 39.4666666666667
+ NB   |   29546 |          54.7 |                    57.9 |               18.1 | 43.5666666666667
+ NL   |   31282 |          44.2 |                    59.6 |               23.3 | 42.3666666666667
+ NS   | 35489.1 |          53.9 |                    55.6 |               15.5 | 41.6666666666667
+ MB   | 59966.8 |          48.9 |                    63.5 |               15.9 | 42.7666666666667
+ SK   | 79317.5 |          53.5 |                      57 |               19.6 | 43.3666666666667
+(6 rows)
+
+-- Q14 number of women enrolled in post secondary institutions and ratio of women in various management
+positions
+
+tion,3h-malho199=> select code, enrollmentfemale, mmspecialized, mmretailcustomerservice, mmtradesproduct
+totalratio from template join postsecondaryinstitutions on
+template.code = postsecondaryinstitutions.location order by enrollmentfemale desc;
+ code | enrollmentfemale | mmspecialized | mmretailcustomerservice | mmtradesproduction |    totalratio
+------+------------------+---------------+-------------------------+--------------------+------------------
+ AB   |               59 |          43.9 |                    57.7 |               16.3 |             39.3
+ QC   |               58 |          46.7 |                    58.5 |               16.6 |             40.6
+ MB   |               57 |          48.9 |                    63.5 |               15.9 | 42.7666666666667
+ SK   |             56.2 |          53.5 |                      57 |               19.6 | 43.3666666666667
+ BC   |               56 |          47.4 |                      60 |               18.2 | 41.8666666666667
+ NS   |               56 |          53.9 |                    55.6 |               15.5 | 41.6666666666667
+ PE   |             55.1 |          53.3 |                    52.6 |               12.5 | 39.4666666666667
+ ON   |               55 |            46 |                    61.3 |               15.8 | 41.0333333333333
+ NL   |             54.7 |          44.2 |                    59.6 |               23.3 | 42.3666666666667
+ NB   |             54.7 |          54.7 |                    57.9 |               18.1 | 43.5666666666667
+(10 rows) 

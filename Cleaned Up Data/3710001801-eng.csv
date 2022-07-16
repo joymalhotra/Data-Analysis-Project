@@ -1,0 +1,57 @@
+﻿"Postsecondary enrolments, by registration status, institution type, status of student in Canada and gender c 1 2 3"
+"Frequency: Annual"
+"Table: 37-10-0018-01 (formerly CANSIM 477-0019)"
+"Release date: 2020-11-25"
+"Geography: Canada, Geographical region of Canada, Province or territory"
+""
+""
+
+,"Total, institution type"
+,"Total, field of study"
+,"Total, status of student in Canada"
+,"Total, International Standard Classification of Education (ISCED)"
+,"Total, gender"
+,"Total, registration status"
+,"Number 9 10"
+"Geography","2016 - 2017"
+,"Number"
+"Canada","2,075,943"
+"Newfoundland and Labrador","25,968"
+"Prince Edward Island 11","6,189"
+"Nova Scotia","54,966"
+"New Brunswick","27,369"
+"Quebec","532,176"
+"Ontario 12","838,416"
+"Manitoba","62,952"
+"Saskatchewan 13","55,437"
+"Alberta 14 15 16","190,947"
+"British Columbia 17","277,974"
+"Territories","3,549""Table Corrections:"
+Date,Note
+"2019-02-12","Postsecondary Student Information System (PSIS) enrolment and graduate counts have been corrected for the reference years 2015/2016 and 2016/2017 due to an error that occurred during data processing that impacted one Ontario college. This error impacts total enrolment and graduate counts for Ontario and Canada as well as college enrolment and graduate counts for Ontario and Canada."
+
+
+
+Footnotes:
+1,"The data are subject to revision."
+2,"Enrolments are based on students enrolled in the postsecondary institutions at the time of the fall snapshot date, that is, a single date chosen by the institution which falls from September 30th to December 1st. Therefore students who are not enrolled during this time period are excluded and enrolment totals do not represent a full academic year. This has a greater impact on colleges as they have a continuous intake of students and shorter programs. It should also be noted, enrolments are based on program counts and not student counts. If a student is enrolled in more than one program as of the snapshot date, then all of their programs are included in the count."
+3,"Up to 2008, the count excludes students enrolled in programs related to pre-employment, apprenticeship, basic training or skills upgrading, second language training, job readiness or orientation programs. However, as of 2009, the count includes these programs but still excludes apprenticeship programs."
+4,"The “Field of study” variable for enrolments and graduates refers to the <a href="https://www23.statcan.gc.ca/imdb/p3VD.pl?Function=getVD&TVD=1261820">Cannabis primary groupings</a> variant of the Classification of Instructional Programs (CIP) Canada 2016."
+5,"Some Saskatchewan institutions only provide general information on some instructional programs for years 2014/2015 through 2018/2019. The affected programs are assigned a code in the General studies category. Between 2013/2014 and 2014/2015 a break in the series may be observed for some fields of study in Saskatchewan."
+6,"The immigration status variable has been renamed status of student in Canada to better reflect the elements covered by that variable."
+7,"The International Standard Classification of Education (ISCED) is the reference classification for organising education programmes and related qualifications by education levels and fields. The basic concepts and definitions of ISCED are intended to be internationally valid and comprehensive of the full range of education systems. Data in this table are based on <a href="http://uis.unesco.org/en/topic/international-standard-classification-education-isced">ISCED 2011</a>."
+8,"As per the Statistics Canada Standard approved in January 2018, the Postsecondary Student Information System (PSIS) collects information on gender. However, due to low counts, the “Gender diverse” category has been rolled into “Gender unknown” for the purposes of dissemination."
+9,"All counts are randomly rounded to a multiple of 3 using the following procedure: counts which are already a multiple of 3 are not adjusted; counts one greater than a multiple of 3 are adjusted to the next lowest multiple of 3 with a probability of two-thirds and to the next highest multiple of 3 with a probability of one-third. The probabilities are reversed for counts that are one less than a multiple of 3."
+10,"Totals may not add up to the sum of all categories due to rounding."
+11,"In 2017/2018, the Maritime Provinces Higher Education Commission (MPHEC) took over the reporting of all Maritime colleges. This resulted in a break in series for the Prince Edward Island colleges between 2016/2017 and 2017/2018."
+12,"Beginning with the 2015/2016 reference year, data for Ontario colleges were submitted by the Ontario Ministry of Colleges and Universities (MCU) to provide more consistent data reporting across the province. This results in a break in series for Ontario colleges between 2014/2015 and 2015/2016. Additionally, with the release of data for the PSIS 2017/2018 reference year, previously imputed data for Ontario colleges for the reference years 2013/2014 and 2014/2015 were replaced with real data submitted by the Ontario Ministry of Colleges and Universities (MCU)."
+13,"From 2005 to 2008, the enrolments for the University of Regina are not available."
+14,"In 2008/2009, two colleges in Alberta became universities."
+15,"Beginning with the 2004/2005 reporting year, the data extraction methodology to populate Alberta's Postsecondary Student Information System (PSIS) submission was updated by Alberta Advanced Education to provide more accurate reporting."
+16,"In 2018/2019, one college in Alberta became a university."
+17,"In 2008/2009, five colleges in British Columbia became universities."
+
+
+
+"How to cite: Statistics Canada. Table 37-10-0018-01  Postsecondary enrolments, by registration status, institution type, status of student in Canada and gender"
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3710001801
