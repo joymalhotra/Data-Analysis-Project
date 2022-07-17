@@ -1,6 +1,6 @@
 # Data-Analysis-Project
 
-** Cleaned Up Data**: contains organized & cleaned up data retrieved from Governemnt of Canada website 
+** Cleaned Up Data**: contains organized & cleaned up data retrieved from statcan 
 
 ** Investigative Questions**: contains initial investigative questions and the way the relations were initially designed 
 
