@@ -6,7 +6,7 @@
 
 **Relations Defined**: contains the relations defined after refinement
 
-**Querying Schemas**: contains the actual queries used to draw conclusions
+**Querying Schemas**: contains the actual queries used to draw conclusions from the schemas
 
 
 
